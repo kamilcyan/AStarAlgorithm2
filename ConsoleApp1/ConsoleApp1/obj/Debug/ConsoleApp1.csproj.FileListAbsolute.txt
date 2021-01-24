@@ -1,0 +1,7 @@
+D:\git\AStarAlgorithm2\ConsoleApp1\ConsoleApp1\bin\Debug\ConsoleApp1.exe.config
+D:\git\AStarAlgorithm2\ConsoleApp1\ConsoleApp1\bin\Debug\ConsoleApp1.exe
+D:\git\AStarAlgorithm2\ConsoleApp1\ConsoleApp1\bin\Debug\ConsoleApp1.pdb
+D:\git\AStarAlgorithm2\ConsoleApp1\ConsoleApp1\obj\Debug\ConsoleApp1.csprojAssemblyReference.cache
+D:\git\AStarAlgorithm2\ConsoleApp1\ConsoleApp1\obj\Debug\ConsoleApp1.csproj.CoreCompileInputs.cache
+D:\git\AStarAlgorithm2\ConsoleApp1\ConsoleApp1\obj\Debug\ConsoleApp1.exe
+D:\git\AStarAlgorithm2\ConsoleApp1\ConsoleApp1\obj\Debug\ConsoleApp1.pdb
