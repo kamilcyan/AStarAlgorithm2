@@ -38,13 +38,35 @@ namespace ConsoleApp1
 
         public void Draw(int[,] table)
         {
-            for(int i = 0; i<table.Length; i++)
+            for(int i = 0; i<20; i++)
             {
-                for(int j = 0; j< table.Length; j++)
+                for(int j = 0; j< 20; j++)
                 {
                     Console.Write(table[i, j]);
                 }
-                Console.Write("/n");
+                Console.Write("\n");
+            }
+
+            Console.Write(table.Length);
+        }
+
+        public void AddingToList(int[,] table)
+        {
+            List<Point> points = new List<Point>();
+            Point p = new Point();
+
+            for(int i = 0; i< 20; i++)
+            {
+                for(int j = 0; j<20; j++)
+                {
+                    if(table[i,j] == 1)
+                    {
+                        p.X = i;
+                        p.Y = j;
+
+                        points.Add(p);
+                    }
+                }
             }
         }
     }
