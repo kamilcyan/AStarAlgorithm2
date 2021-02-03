@@ -10,6 +10,5 @@ namespace ConsoleApp1
     {
         public int X { get; set; }
         public int Y { get; set; }
-        public double distance { get; set; }
     }
 }

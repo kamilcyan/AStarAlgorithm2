@@ -119,6 +119,10 @@ namespace ConsoleApp1
                 }
                 Console.Write("\n");
             }
+            Console.Write("\n");
+            Console.Write("\nSąsiedztwo:\n");
+
+            DistanceMatrix(matrix, l);
         }
 
         private double CheckDistance(Point point, Point p)
@@ -126,23 +130,79 @@ namespace ConsoleApp1
             int distanceX = p.X - point.X;
             int distanceY = p.Y - point.Y;
 
-            double distance = /*Math.Round*/(Math.Sqrt(Math.Abs(distanceX) ^ 2 + Math.Abs(distanceY) ^ 2));
+            double distance = /*Math.Round*/(Math.Sqrt(Math.Pow(distanceX, 2) + Math.Pow(distanceY, 2)));
             return distance;
         }
 
-        private void SprawdzMozliwosci(List<Point> lista, Point p)
+        private void DistanceMatrix(double[,] tab, List<Point> l)
         {
-            
+            var matrixOdleglosci = new double[l.Count, l.Count];
+
+            for(int i = 0; i < l.Count; i++)
+            {
+                for(int j = 0; j < l.Count; j++)
+                {
+                    matrixOdleglosci[i, j] = tab[i, j] * CheckNeigbours(l[i], l[j]);
+                }
+            }
+
+            NewDraw(matrixOdleglosci, l.Count, l.Count);
+
+            Shortest(matrixOdleglosci, l.Count);
         }
 
-        List<Point> AddToChecked(Point p)
+        private double CheckNeigbours(Point point1, Point point2)
         {
-            List<Point> verified = new List<Point>();
-
-            verified.Add(p);
-
-            return verified;
+            if (((point1.X == point2.X + 1) || (point1.X == point2.X - 1) || (point1.X == point2.X)) && ((point1.Y == point2.Y + 1) || (point1.Y == point2.Y - 1) || (point1.Y == point2.Y)))
+            {
+                return 1.00;
+            }
+            else
+                return 0;
         }
 
+        private void NewDraw(double[,] tab, int a, int b)
+        {
+            for (int i = 0; i < a; i++)
+            {
+                for (int j = 0; j < a; j++)
+                {
+                    if(i == j)
+                    {
+                        Console.Write(" " + "X" + " ");
+                    }
+                    Console.Write(" " + String.Format("{0:N2}", tab[i, j]) + " ");
+
+                }
+                Console.Write("\n");
+            }
+        }
+
+        private List<double> Shortest(double[,] tab, int a)
+        {
+            List<double> shortestList = new List<double>();
+
+            double[] shortest = new double[a];
+
+            for(int i = 0; i < a; i++)
+            {
+                shortest[i] = 9999999;
+                for (int j = 0; j < a; j++)
+                {
+                    if(tab[i,j] < shortest[i])
+                    {
+                        shortest[i] = tab[i, j];
+                        shortestList[i] = shortest[i];
+                    }
+                }
+            }
+
+            foreach(var p in shortestList)
+            {
+                Console.WriteLine(p);
+            }
+
+            return shortestList;
+        }
     }
 }
