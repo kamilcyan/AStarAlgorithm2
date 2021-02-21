@@ -11,61 +11,18 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
             Program prog = new Program();
+            Tablica tablica = new Tablica();
+            Matrix matrix = new Matrix();
+
             int[,] tab = new int[5, 5];
-            tab = prog.GenerujTablice();
+            tab = tablica.GenerujTablice();
             
-            prog.Draw(tab);
-
             List<Point> points = prog.AddingToList(tab);
+            tablica.WriteOutPoints(points);
 
-            Console.WriteLine("\n");
-
-            foreach (var p in points)
-            {
-                Console.WriteLine(p.X + " " + p.Y);
-            }
-
-            prog.MakeMatrix(points);
+            matrix.MakeMatrix(points);
 
             Console.ReadKey();
-        }
-
-        public int[,] GenerujTablice()
-        {
-            //int[,] numery = new int[5, 5];
-
-            int[,] numery = {
-                { 0, 1, 0, 0, 1},
-                { 1, 1, 1, 0, 0},
-                { 0, 1, 1, 1, 0},
-                { 1, 0, 1, 0, 1},
-                { 1, 0, 0, 1, 0}
-            };
-
-
-            //Random random = new Random();
-
-            //for (int i = 0; i < 5; i++)
-            //{
-            //    for (int j = 0; j < 5; j++)
-            //    {
-            //        numery[i, j] = random.Next(0, 2);
-            //    }
-            //}
-
-            return numery;
-        }
-
-        public void Draw(int[,] table)
-        {
-            for(int i = 0; i<5; i++)
-            {
-                for(int j = 0; j< 5; j++)
-                {
-                    Console.Write(table[i, j]);
-                }
-                Console.Write("\n");
-            }
         }
 
         public List<Point> AddingToList(int[,] table)
@@ -90,119 +47,43 @@ namespace ConsoleApp1
             return points;
         }
 
-        public void MakeMatrix(List<Point> l)
+        public void Djikstra(double[,] tablica, List<Point> points)
         {
 
-            double[,] matrix = new double[l.Count, l.Count];
+            Point[] Z = new Point[points.Count];
+            double[] dystans = new double[points.Count];
+            List<int> punktyDoSprawdzenia = new List<int>();
 
-            for(int i = 0; i < l.Count; i++)
+            punktyDoSprawdzenia.Add(0);
+
+            while (punktyDoSprawdzenia.Any<int>())
             {
-                for(int j = 0; j < l.Count; j++)
+                var punkt = punktyDoSprawdzenia.First<int>();
+                for (int j = 0; j < points.Count; j++)
                 {
-                    matrix[i, j] = (CheckDistance(l[i], l[j]));
+                    var odleglosc = tablica[punkt, j];
+                    if (((punkt != j)))
+                    {
+                        Z[j] = points[punkt];
+                        dystans[j] = tablica[punkt, j] + dystans[punkt];
+                        punktyDoSprawdzenia.Add(j);
+                    }
                 }
-            }
-
-            for (int i = 0; i < l.Count; i++)
-            {
-                for (int j = 0; j < l.Count; j++)
-                {
-                    if (i == j)
-                    {
-                        Console.Write("X");
-                    }
-                    else
-                    {
-                        Console.Write(" " + String.Format("{0:N2}", matrix[i, j]) + " ");
-                    }
                     
-                }
-                Console.Write("\n");
-            }
-            Console.Write("\n");
-            Console.Write("\nSąsiedztwo:\n");
-
-            DistanceMatrix(matrix, l);
-        }
-
-        private double CheckDistance(Point point, Point p)
-        {
-            int distanceX = p.X - point.X;
-            int distanceY = p.Y - point.Y;
-
-            double distance = /*Math.Round*/(Math.Sqrt(Math.Pow(distanceX, 2) + Math.Pow(distanceY, 2)));
-            return distance;
-        }
-
-        private void DistanceMatrix(double[,] tab, List<Point> l)
-        {
-            var matrixOdleglosci = new double[l.Count, l.Count];
-
-            for(int i = 0; i < l.Count; i++)
-            {
-                for(int j = 0; j < l.Count; j++)
-                {
-                    matrixOdleglosci[i, j] = tab[i, j] * CheckNeigbours(l[i], l[j]);
-                }
+                punktyDoSprawdzenia.Remove(punkt);
             }
 
-            NewDraw(matrixOdleglosci, l.Count, l.Count);
-
-            Shortest(matrixOdleglosci, l.Count);
-        }
-
-        private double CheckNeigbours(Point point1, Point point2)
-        {
-            if (((point1.X == point2.X + 1) || (point1.X == point2.X - 1) || (point1.X == point2.X)) && ((point1.Y == point2.Y + 1) || (point1.Y == point2.Y - 1) || (point1.Y == point2.Y)))
+            foreach (var p in Z)
             {
-                return 1.00;
-            }
-            else
-                return 0;
-        }
-
-        private void NewDraw(double[,] tab, int a, int b)
-        {
-            for (int i = 0; i < a; i++)
-            {
-                for (int j = 0; j < a; j++)
-                {
-                    if(i == j)
-                    {
-                        Console.Write(" " + "X" + " ");
-                    }
-                    Console.Write(" " + String.Format("{0:N2}", tab[i, j]) + " ");
-
-                }
-                Console.Write("\n");
-            }
-        }
-
-        private List<double> Shortest(double[,] tab, int a)
-        {
-            List<double> shortestList = new List<double>();
-
-            double[] shortest = new double[a];
-
-            for(int i = 0; i < a; i++)
-            {
-                shortest[i] = 9999999;
-                for (int j = 0; j < a; j++)
-                {
-                    if(tab[i,j] < shortest[i])
-                    {
-                        shortest[i] = tab[i, j];
-                        shortestList[i] = shortest[i];
-                    }
-                }
-            }
-
-            foreach(var p in shortestList)
-            {
+                Console.Write("\nZ:\n");
                 Console.WriteLine(p);
             }
 
-            return shortestList;
+            foreach (var p in dystans)
+            {
+                Console.Write("\nDystans:\n");
+                Console.WriteLine(p);
+            }
         }
     }
 }
