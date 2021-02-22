@@ -52,27 +52,39 @@ namespace ConsoleApp1
 
         public void Djikstra(double[,] tablicaSasiedztwa, List<Point> points)
         {
-            Point[] Z = new Point[points.Count];
-            double[] dystans = new double[points.Count];
+            Point[] Z = new Point[points.Count+1];
+            double[] dystans = new double[points.Count+1];
             List<int> punktyDoSprawdzenia = new List<int>();
-
+           
             punktyDoSprawdzenia.Add(0);
 
             while (punktyDoSprawdzenia.Any<int>())
             {
                 var punkt = punktyDoSprawdzenia.First<int>();
-                for (int j = 0; j < points.Count; j++)
+                double tymczasOdleglosc = 100;
+                for (int i = 0; i < points.Count; i++)
                 {
-                    var odleglosc = tablicaSasiedztwa[punkt, j];
-                    if (((punkt != j)))
+                    if(punkt != 0)
                     {
-                        Z[j] = points[punkt];
-                        dystans[j] = tablicaSasiedztwa[punkt, j] + dystans[punkt];
-                        punktyDoSprawdzenia.Add(j);
+                        if ((tablicaSasiedztwa[punkt, i] != 0) && (tablicaSasiedztwa[punkt, i] + dystans[i] < tymczasOdleglosc))
+                        {
+                            tymczasOdleglosc = tablicaSasiedztwa[punkt, i] + dystans[punkt];
+                            dystans[punkt] = tymczasOdleglosc;
+                            Z[punkt] = points[punkt - 1];
+                        }
                     }
-                }
+                    else
+                    {
+                        dystans[0] = 0;
+                        Z[0] = points[0];
+
+                    }
                     
-                punktyDoSprawdzenia.Remove(punkt);
+                    
+                }
+
+                punktyDoSprawdzenia.Add(punkt+1);
+                punktyDoSprawdzenia.RemoveAt(0);
             }
 
             foreach (var p in Z)
