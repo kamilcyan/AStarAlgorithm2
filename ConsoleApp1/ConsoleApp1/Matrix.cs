@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
     class Matrix
     {
         Program program = new Program();
-        public void MakeMatrix(List<Point> l)
+        public double[,] MakeMatrix(List<Point> l)
         {
             Console.Write("\nTabela odległości: \n");
             double[,] matrix = new double[l.Count, l.Count];
@@ -40,8 +37,7 @@ namespace ConsoleApp1
             }
             Console.Write("\n");
             Console.Write("\nSąsiedztwo:\n");
-
-            DistanceMatrix(matrix, l);
+            return matrix;
         }
 
         private double CheckNeigbours(Point point1, Point point2)
@@ -54,7 +50,7 @@ namespace ConsoleApp1
                 return 0;
         }
 
-        private void DistanceMatrix(double[,] tab, List<Point> l)
+        public double[,] DistanceMatrix(double[,] tab, List<Point> l)
         {
             var matrixOdleglosci = new double[l.Count, l.Count];
 
@@ -68,9 +64,8 @@ namespace ConsoleApp1
 
             NewDraw(matrixOdleglosci, l.Count, l.Count);
 
-            program.Djikstra(matrixOdleglosci, l);
 
-            //Shortest(matrixOdleglosci, l.Count);
+            return matrixOdleglosci;
         }
 
         private double CheckDistance(Point point, Point p)

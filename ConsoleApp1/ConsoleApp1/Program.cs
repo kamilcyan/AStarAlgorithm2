@@ -20,7 +20,10 @@ namespace ConsoleApp1
             List<Point> points = prog.AddingToList(tab);
             tablica.WriteOutPoints(points);
 
-            matrix.MakeMatrix(points);
+            var tablicaMatrix = matrix.MakeMatrix(points);
+            
+            prog.Djikstra(matrix.DistanceMatrix(tablicaMatrix, points), points);
+
 
             Console.ReadKey();
         }
@@ -47,9 +50,8 @@ namespace ConsoleApp1
             return points;
         }
 
-        public void Djikstra(double[,] tablica, List<Point> points)
+        public void Djikstra(double[,] tablicaSasiedztwa, List<Point> points)
         {
-
             Point[] Z = new Point[points.Count];
             double[] dystans = new double[points.Count];
             List<int> punktyDoSprawdzenia = new List<int>();
@@ -61,11 +63,11 @@ namespace ConsoleApp1
                 var punkt = punktyDoSprawdzenia.First<int>();
                 for (int j = 0; j < points.Count; j++)
                 {
-                    var odleglosc = tablica[punkt, j];
+                    var odleglosc = tablicaSasiedztwa[punkt, j];
                     if (((punkt != j)))
                     {
                         Z[j] = points[punkt];
-                        dystans[j] = tablica[punkt, j] + dystans[punkt];
+                        dystans[j] = tablicaSasiedztwa[punkt, j] + dystans[punkt];
                         punktyDoSprawdzenia.Add(j);
                     }
                 }
