@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
@@ -52,39 +50,35 @@ namespace ConsoleApp1
 
         public void Djikstra(double[,] tablicaSasiedztwa, List<Point> points)
         {
-            Point[] Z = new Point[points.Count+1];
-            double[] dystans = new double[points.Count+1];
+            int[] Z = new int[points.Count-1];
+            double[] dystans = new double[points.Count];
             List<int> punktyDoSprawdzenia = new List<int>();
-           
+            int iterator = 0;
+            dystans[0] = 0;
+            for(int i = 1; i< dystans.Length; i++)
+            {
+                dystans[i] = 100;
+            }
             punktyDoSprawdzenia.Add(0);
 
             while (punktyDoSprawdzenia.Any<int>())
             {
                 var punkt = punktyDoSprawdzenia.First<int>();
-                double tymczasOdleglosc = 100;
+                
                 for (int i = 0; i < points.Count; i++)
                 {
-                    if(punkt != 0)
+                    if ((tablicaSasiedztwa[punkt, i] != 0) && (dystans[punkt] + tablicaSasiedztwa[punkt, i] < dystans[i]))
                     {
-                        if ((tablicaSasiedztwa[punkt, i] != 0) && (tablicaSasiedztwa[punkt, i] + dystans[i] < tymczasOdleglosc))
-                        {
-                            tymczasOdleglosc = tablicaSasiedztwa[punkt, i] + dystans[punkt];
-                            dystans[punkt] = tymczasOdleglosc;
-                            Z[punkt] = points[punkt - 1];
-                        }
+                        dystans[i] = dystans[punkt] + tablicaSasiedztwa[punkt, i];
+                        Z[punkt] = punkt;
                     }
-                    else
-                    {
-                        dystans[0] = 0;
-                        Z[0] = points[0];
 
-                    }
-                    
-                    
                 }
-
-                punktyDoSprawdzenia.Add(punkt+1);
-                punktyDoSprawdzenia.RemoveAt(0);
+                if(punkt < points.Count-1)
+                {
+                    punktyDoSprawdzenia.Add(punkt+1);
+                }
+            punktyDoSprawdzenia.RemoveAt(0);
             }
 
             foreach (var p in Z)
@@ -95,8 +89,9 @@ namespace ConsoleApp1
 
             foreach (var p in dystans)
             {
+                iterator++;
                 Console.Write("\nDystans:\n");
-                Console.WriteLine(p);
+                Console.WriteLine(iterator + ": " + p);
             }
         }
     }

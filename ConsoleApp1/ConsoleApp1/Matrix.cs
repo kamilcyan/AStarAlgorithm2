@@ -86,7 +86,7 @@ namespace ConsoleApp1
                     if (i == j)
                     {
                         Console.Write(" " + "X" + " ");
-                    }
+                    }else 
                     Console.Write(" " + String.Format("{0:N2}", tab[i, j]) + " ");
 
                 }
